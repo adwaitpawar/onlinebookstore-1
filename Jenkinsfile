@@ -15,8 +15,8 @@ pipeline {
             steps {
                 script {
                     checkout(
-                        branches: [[name: '*/J2EE']],
-                        scm: [$class: 'GitSCM', branches: [[name: '*/J2EE']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/onlinebookstore-1.git']]]
+                        branches: [[name: '*/dev']],
+                        scm: [$class: 'GitSCM', branches: [[name: '*/dev']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/onlinebookstore-1.git']]]
                     )
 
                     // Set environment variable based on branch name
