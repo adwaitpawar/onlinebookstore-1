@@ -38,9 +38,6 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                expression { env.BRANCH_NAME == 'J2EE' }
-            }
             steps {
                 script {
                     echo "Deploying to ${ENV_NAME} environment"
