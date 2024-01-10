@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     environment {
-        // Default value, in case the BRANCH_NAME environment variable is not available
         ENV_NAME = 'unknown'
     }
 
@@ -15,11 +14,9 @@ pipeline {
             steps {
                 script {
                     checkout(
-                        branches: [[name: '*/J2EE']],
-                        scm: [$class: 'GitSCM', branches: [[name: '*/J2EE']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/onlinebookstore-1.git']]]
+                        scm: [$class: 'GitSCM', branches: [[name: "*/${env.BRANCH_NAME}"]], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/onlinebookstore-1.git']]]
                     )
 
-                    // Set environment variable based on branch name
                     if (env.BRANCH_NAME == 'J2EE') {
                         ENV_NAME = 'production'
                     } else if (env.BRANCH_NAME == 'dev') {
@@ -30,6 +27,9 @@ pipeline {
         }
 
         stage('Build') {
+            when {
+                expression { env.BRANCH_NAME == 'J2EE' || env.BRANCH_NAME == 'dev' }
+            }
             steps {
                 script {
                     bat 'mvn clean package'
@@ -38,6 +38,9 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                expression { env.BRANCH_NAME == 'J2EE' }
+            }
             steps {
                 script {
                     echo "Deploying to ${ENV_NAME} environment"
