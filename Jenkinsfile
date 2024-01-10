@@ -45,7 +45,7 @@ pipeline {
                 script {
                     echo "Deploying to ${ENV_NAME} environment"
                     deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://localhost:8045/manager/html')],
-                           contextPath: 'onlinebookstore-1',
+                           contextPath: 'onlinebook1',
                            war: '**/*.war'
                 }
             }
