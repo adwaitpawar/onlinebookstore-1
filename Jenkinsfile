@@ -38,14 +38,11 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                expression { env.BRANCH_NAME == 'J2EE' }
-            }
             steps {
                 script {
                     echo "Deploying to ${ENV_NAME} environment"
                     deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://localhost:8045/manager/html')],
-                           contextPath: 'onlinebook1',
+                           contextPath: 'onlinebookdev',
                            war: '**/*.war'
                 }
             }
